@@ -1,0 +1,31 @@
+# Exercise 1
+# Write a function generating uniform distribution 
+# on a n-dimensional ball o radius r
+
+
+#Generate random sample of size m
+
+runifballs <- function(r = 1, n = 2, m = 1)
+{
+  runifball <- function( r = "radius", n = "dimension")
+  {
+    X <- 100
+    while (sum(X^2) > 1) 
+    {
+      X <- runif(n)
+    }
+    return (X)
+  }  
+  sample <- t(replicate(m, runifball(r,n)))
+}
+
+kaj <- runifballs(1,10,5)
+sum(kaj[4,]^2)
+kaj[1,]
+
+a <- runifballs(m = 100000)
+hist(a[,1])
+plot(a)
+dim(a)
+mean(a[,1])
+a
