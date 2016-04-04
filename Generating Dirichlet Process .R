@@ -19,6 +19,25 @@ probab <- function(n,alpha)
   return (weights)
 }
 
+# czesc 1
+probab1 <- function(epsilon, alpha){
+  sum_weights <-0
+  weights <-0
+  i<-1
+  temp <- 1
+  temp[1]<-1
+  cum<-1
+  while( 1- sum_weights> epsilon) 
+  {v[i] <- rbeta(1,1, alpha)  
+  cum<-cum*(1-v[i])
+  temp[i+1] <- cum
+  weights[i] <-v[i]*temp[i]
+  sum_weights <- sum_weights+ weights[i]
+  i <- i+1
+  }
+  return(weights)
+}
+
 #generowanie probki z pierwotnego rozkladu 
 parent_sample <-rnorm(n)
 
