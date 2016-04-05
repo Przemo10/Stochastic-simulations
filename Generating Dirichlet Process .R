@@ -26,6 +26,7 @@ probab1 <- function(epsilon, alpha){
   i<-1
   temp <- 1
   temp[1]<-1
+  v<-1
   cum<-1
   while( 1- sum_weights> epsilon) 
   {v[i] <- rbeta(1,1, alpha)  
@@ -37,6 +38,28 @@ probab1 <- function(epsilon, alpha){
   }
   return(weights)
 }
+
+
+
+##
+(weights<- probab1(0.05,2))
+
+(parent_sample <- rnorm(length(weights)))
+
+
+# Robiac okrezna droga poprzez utworzenie tabeli : parent sapmle + weights 
+# Na tej tabeli robilem grupowanie:  rozne wartosci parent sample + sumy wag dla kazdej parent sample.
+table_weight <-data.frame(as.table(setNames(weights, parent_sample)))
+(table_weight <- setNames(table_weight, c('parent_sample', 'weights')))
+table_weight$weights <-as.numeric(paste(table_weight$weights))
+library(dplyr)
+table_weight <- table_weight %>% group_by(parent_sample) %>% summarise(totalweight= sum(weights)) %>% arrange(totalweight)
+
+
+parent_sample <- as.numeric(table_weight$parent_sample)
+weights <- as.numeric(table_weight$totalweight)
+
+#funkcji obv nie ruszalem  nic do tej pory
 
 #generowanie probki z pierwotnego rozkladu 
 parent_sample <-rnorm(n)
@@ -56,6 +79,9 @@ sample <- replicate(10,obs(weights))
 #jezeli bedziemy losowali z rozkladu dyskretnego (np. jednosnajnego na {1,2,..,10})
 #to niektore elementy parent_sample beda sie powtarzaly
 # trzeba przerobic ta funkcje tak, zeby skleic wagi odpowiadajace powtorzeniom 
+
+
+
 
 #testowanie czy otrzymujemy wlasciwy rozklad (to jest to nad czym ja teraz pracuje)
 sum(weights[-1])
