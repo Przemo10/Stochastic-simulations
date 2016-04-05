@@ -41,21 +41,22 @@ probab1 <- function(epsilon, alpha){
 
 
 
-##
+## Biore przykladowe wagi . Robilem ciagle dla normalnego ale mam u siebie dla  dyskretnego i jest to ok
 (weights<- probab1(0.05,2))
 
 (parent_sample <- rnorm(length(weights)))
 
 
-# Robiac okrezna droga poprzez utworzenie tabeli : parent sapmle + weights 
+# Robie okrezna droga poprzez utworzenie tabeli : parent sapmle + weights 
 # Na tej tabeli robilem grupowanie:  rozne wartosci parent sample + sumy wag dla kazdej parent sample.
+#
 table_weight <-data.frame(as.table(setNames(weights, parent_sample)))
 (table_weight <- setNames(table_weight, c('parent_sample', 'weights')))
 table_weight$weights <-as.numeric(paste(table_weight$weights))
 library(dplyr)
 table_weight <- table_weight %>% group_by(parent_sample) %>% summarise(totalweight= sum(weights)) %>% arrange(totalweight)
 
-
+#Zwracam poszczegolne wiersze by dostac nowe wagi i nowe parent sample
 parent_sample <- as.numeric(table_weight$parent_sample)
 weights <- as.numeric(table_weight$totalweight)
 
@@ -69,6 +70,8 @@ obs <- function(weights)
 {
 nowe <- Inf
 probka <- sample(c(parent_sample,nowe),1,replace = TRUE, prob = c(weights,(1-sum(weights))))
+# problem w tym ifie na dole, jesli bedzie tu rozklad dyskretny i wylosujemy cos z wartosci co juz mamy to czy to nam czegos nie popsuje??
+#przypuszczam, ze dla dyskretnego probka <- jedna zmienna z rozkladu dyskretnego 
 if (probka == c(Inf)) (probka <- rnorm(1))
 return (probka)
 }
