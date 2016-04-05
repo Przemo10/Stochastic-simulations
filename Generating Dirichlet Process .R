@@ -39,13 +39,10 @@ probab1 <- function(epsilon, alpha){
   return(weights)
 }
 
-
-
 ## Biore przykladowe wagi . Robilem ciagle dla normalnego ale mam u siebie dla  dyskretnego i jest to ok
 (weights<- probab1(0.05,2))
 
 (parent_sample <- rnorm(length(weights)))
-
 
 # Robie okrezna droga poprzez utworzenie tabeli : parent sapmle + weights 
 # Na tej tabeli robilem grupowanie:  rozne wartosci parent sample + sumy wag dla kazdej parent sample.
@@ -60,7 +57,7 @@ table_weight <- table_weight %>% group_by(parent_sample) %>% summarise(totalweig
 parent_sample <- as.numeric(table_weight$parent_sample)
 weights <- as.numeric(table_weight$totalweight)
 
-#funkcji obv nie ruszalem  nic do tej pory
+#funkcji obv nie ruszalem  nic do tej pory. Wydaje mi sie ze zbytnio jej nie ulepszy juz. Lepiej dac przerobic  wagi wczesniej.
 
 #generowanie probki z pierwotnego rozkladu 
 parent_sample <-rnorm(n)
