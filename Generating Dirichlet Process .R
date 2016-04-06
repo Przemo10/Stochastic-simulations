@@ -67,7 +67,6 @@ obs <- function(weights)
 nowe <- Inf
 probka <- sample(c(parent_sample,nowe),1,replace = TRUE, prob = c(weights,(1-sum(weights))))
 # problem w tym ifie na dole, jesli bedzie tu rozklad dyskretny i wylosujemy cos z wartosci co juz mamy to czy to nam czegos nie popsuje??
-#przypuszczam, ze dla dyskretnego probka <- jedna zmienna z rozkladu dyskretnego 
 if (probka == c(Inf)) (probka <- rnorm(1))
 return (probka)
 }
