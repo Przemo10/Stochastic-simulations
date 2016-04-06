@@ -19,7 +19,7 @@ probab <- function(n,alpha)
   return (weights)
 }
 
-# czesc 1
+# Task1
 probab1 <- function(epsilon, alpha){
   sum_weights <-0
   weights <-0
@@ -38,26 +38,25 @@ probab1 <- function(epsilon, alpha){
   }
   return(weights)
 }
-
-## Biore przykladowe wagi . Robilem ciagle dla normalnego ale mam u siebie dla  dyskretnego i jest to ok
+## Task 2
 (weights<- probab1(0.05,2))
 
 (parent_sample <- rnorm(length(weights)))
 
+library(dplyr)
 # Robie okrezna droga poprzez utworzenie tabeli : parent sapmle + weights 
 # Na tej tabeli robilem grupowanie:  rozne wartosci parent sample + sumy wag dla kazdej parent sample.
 #
-table_weight <-data.frame(as.table(setNames(weights, parent_sample)))
-(table_weight <- setNames(table_weight, c('parent_sample', 'weights')))
-table_weight$weights <-as.numeric(paste(table_weight$weights))
-library(dplyr)
-table_weight <- table_weight %>% group_by(parent_sample) %>% summarise(totalweight= sum(weights)) %>% arrange(totalweight)
+(table_weight <-data.frame(as.table(setNames(weights, parent_sample))))
+table_weight <- setNames(table_weight, c('parent_sample', 'weights'))
+(table_weight <- table_weight %>% group_by(parent_sample) %>% summarise(totalweight= sum(weights)) %>% arrange(totalweight))
+
 
 #Zwracam poszczegolne wiersze by dostac nowe wagi i nowe parent sample
-parent_sample <- as.numeric(table_weight$parent_sample)
-weights <- as.numeric(table_weight$totalweight)
-
-#funkcji obv nie ruszalem  nic do tej pory. Wydaje mi sie ze zbytnio jej nie ulepszy juz. Lepiej dac przerobic  wagi wczesniej.
+(weights <- table_weight$totalweight)
+(parent_sample <- as.numeric(as.character(table_weight$parent_sample)))
+#nowe parent sample cos troche ucina miejsc po przecinku ale chyba jest ok
+#funkcji obv nie ruszalem  nic do tej pory. Wydaje mi sie ze zbytnio jej nie ulepszy juz. Lepiej  przerobic  wagi wczesniej.
 
 #generowanie probki z pierwotnego rozkladu 
 parent_sample <-rnorm(n)
